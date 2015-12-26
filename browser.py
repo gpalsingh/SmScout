@@ -8,15 +8,6 @@ import utils
 import sqlite3 as sql
 import time
 
-#=============================================
-#
-#                   TODO
-#
-#=============================================
-#fix for loop
-#add first and last name
-
-#special class for parser
 class listAction(argparse.Action):
     def __init__(self, option_strings, dest, nargs=None, **kwargs):
         if nargs is not None:
@@ -30,9 +21,9 @@ class minsAction(listAction): svar='mins'
 class ageAction(listAction): svar='age'
 
 #database variables   
-columns = ['fname', 'lname'] + variables.attrs_to_save 
+columns = variables.extra_attrs_to_save.keys() + variables.attrs_to_save
 columns_string = ', '.join( columns ) 
-all_leagues_data = utils.getDoneLeagues()
+all_leagues_data = utils.get_done_leagues()
  
 #parser arguments 
 parser = argparse.ArgumentParser()
@@ -73,7 +64,7 @@ if args.list:
         print utils.colored('\t{}( {} )'.format(lg, natn), 'blue')
     sys.exit(0)
     
-leagues_data = utils.getClosestNames( user_requested_leagues, all_leagues_data )    
+leagues_data = utils.get_closest_names( user_requested_leagues, all_leagues_data )    
 
 if leagues_data==[] or show_all_leagues:
     if not show_all_leagues:
@@ -115,7 +106,7 @@ for league_name, league_nation, path in leagues_data:
             if row==svar:
                 color = 'green' if least>0 else 'yellow'
                 val_text = utils.colored(val, color)
-            else: val_text = utils.toAscii(val)
+            else: val_text = utils.to_ascii(val)
             
             print col_text + val_text
         
