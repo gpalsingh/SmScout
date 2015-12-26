@@ -3,8 +3,8 @@
 import sys
 import os.path
 import argparse
-from Utils import gVars
-from Utils import smUtils
+import variables
+import utils
 import sqlite3 as sql
 import time
 
@@ -30,9 +30,9 @@ class minsAction(listAction): svar='mins'
 class ageAction(listAction): svar='age'
 
 #database variables   
-columns = ['fname', 'lname'] + gVars.attrs_to_save 
+columns = ['fname', 'lname'] + variables.attrs_to_save 
 columns_string = ', '.join( columns ) 
-all_leagues_data = smUtils.getDoneLeagues()
+all_leagues_data = utils.getDoneLeagues()
  
 #parser arguments 
 parser = argparse.ArgumentParser()
@@ -64,16 +64,16 @@ show_all_leagues = args.all
 user_requested_leagues = args.leagues
 
 if len(all_leagues_data)==0:
-    print smUtils.colored("Download some data first") 
+    print utils.colored("Download some data first") 
     sys.exit(0)
 
 if args.list:
     print 'Data available for :'
     for lg, natn in available_leagues.items():
-        print smUtils.colored('\t{}( {} )'.format(lg, natn), 'blue')
+        print utils.colored('\t{}( {} )'.format(lg, natn), 'blue')
     sys.exit(0)
     
-leagues_data = smUtils.getClosestNames( user_requested_leagues, all_leagues_data )    
+leagues_data = utils.getClosestNames( user_requested_leagues, all_leagues_data )    
 
 if leagues_data==[] or show_all_leagues:
     if not show_all_leagues:
@@ -87,13 +87,13 @@ Show data for all leagues? (yes / no)'''
 
 for league_name, league_nation, path in leagues_data:
     '''if league_name not in getLeagues(available_leagues):
-        print >> sys.stderr, smUtils.colored('No data available for '+league, 'red')
+        print >> sys.stderr, utils.colored('No data available for '+league, 'red')
         continue'''
-    path_to_database = os.path.join(gVars.database_folder, league_nation+'.db')
+    path_to_database = os.path.join(variables.database_folder, league_nation+'.db')
     conn = sql.connect( path_to_database )
     cur = conn.cursor()
         
-    print smUtils.colored( 'Players\' data for ' + league_name + ' : \n', 'blue' )
+    print utils.colored( 'Players\' data for ' + league_name + ' : \n', 'blue' )
     players = cur.execute('''SELECT {}
                              FROM "{}"
                              ORDER BY {} DESC;'''.format( columns_string,
@@ -114,8 +114,8 @@ for league_name, league_nation, path in leagues_data:
             col_text = '{:15} : \t'.format( row.capitalize() )
             if row==svar:
                 color = 'green' if least>0 else 'yellow'
-                val_text = smUtils.colored(val, color)
-            else: val_text = smUtils.toAscii(val)
+                val_text = utils.colored(val, color)
+            else: val_text = utils.toAscii(val)
             
             print col_text + val_text
         

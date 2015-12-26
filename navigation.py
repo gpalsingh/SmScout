@@ -8,7 +8,7 @@ def chooseNation():
     returns:    int, string
     '''
     home = api.HomePage()
-    nation_and_link = home.getLeaguesList()
+    nation_and_link = home.get_leagues_list()
     resp = smUtils.pickOne( nation_and_link )
     return resp
     
@@ -20,8 +20,8 @@ def chooseLeague( url ):
     returns:    int, LeaguePage object
     '''
     page = api.LeaguePage( url )
-    print '\nCurrently on ', page.getName()
-    league_and_link = page.getLeagues()
+    print '\nCurrently on ', page.get_name()
+    league_and_link = page.get_leagues
     n, new_url = smUtils.pickOne( league_and_link )
     if new_url==page.URL:
         return n, page

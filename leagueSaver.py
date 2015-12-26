@@ -2,23 +2,23 @@
 
 import smUtils
 import gVars
-import sqlite3 as sql
+from sqlite3 import connect
 
 def saveLeagueDone(  nation_name, league_name, path, dtime=None ):
     """keeps log of all the leagues downloaded
     """
-    
+
     if dtime==None:
-        from time import time 
+        from time import time
         dtime = str(time())
-    
+
     dbase = gVars.main_database
     table = gVars.done_leagues_table
 
-    conn = sql.connect( dbase )
+    conn = connect(dbase)
     cur = conn.cursor()
-    
-    cur.execute('''CREATE TABLE 
+
+    cur.execute('''CREATE TABLE
         IF NOT EXISTS {}(
         name string(255),
         nation string(255),
@@ -28,15 +28,15 @@ def saveLeagueDone(  nation_name, league_name, path, dtime=None ):
 		    table
 		    )
 		 )
-		 
+
     past_entries = cur.execute('''SELECT * FROM "{}"
-                                  WHERE name="{}" 
+                                  WHERE name="{}"
                                   and nation="{}"'''.format( table,
                                                            league_name,
                                                            nation_name
                                                    )
                    ).fetchall()
-                   
+
     num_past_entries = len(past_entries)
     if num_past_entries > 1:
         print smUtils.colored('''Database corrupted !

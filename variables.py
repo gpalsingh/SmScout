@@ -12,9 +12,10 @@ testing_database = test_folder + 'logtest.db'
 attrs_required = ['mins','apps','goals','linups']
 attrs_to_save = ['name', 'age', 'team', 'pos' ]
 for att in attrs_required:
-    for pre in ['', 'tot', 'career']:
-        attrs_to_save.append( pre + att )
-extra_attrs_to_save = { 'fname':'string', 'lname':'string' }
+    attrs_to_save.extend([x+att for x in ['', 'tot', 'career']])
+extra_attrs_to_save = { 'fname':'string', 'lname':'string', 'league_name':'string' }
         
-try:    os.mkdirst( database_folder )
-except: pass
+try:
+    os.mkdirst( database_folder )
+except:
+    pass
