@@ -1,1 +1,7 @@
 *.txt
+*test*
+*.pyc
+.idea
+build
+*egg-info
+SWdata
