@@ -1,5 +1,3 @@
-What this program does
-----------------------
 This program serves as an automatic scouting system for finding  emerging talents in football leagues 
 all around the world to help in playing `SoccerManger <https://www.soccermanager.com>`_.
 
