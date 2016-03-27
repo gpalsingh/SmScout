@@ -19,4 +19,4 @@ Instructions
     - The data is stored in ``SmScout/SWdata/databases``
 
 Use ``-h`` option to get help for any of the two modules.
-More detailed instructions are available in `instructions.rst <https://github.com/gpalsingh/SmScout/blob/master/instructions.rst>`_
+More detailed instructions are available in `instructions.rst <https://github.com/gpalsingh/SmScout/blob/cli/instructions.rst>`_
